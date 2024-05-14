@@ -1,0 +1,41 @@
+__kernel void Kernel(__global int *F, __global int *mx, N)
+{
+	int i, id = get_global_id(0), kol = get_global_size(0);
+	int x, y, temp, swp = N / 2, N_all = N * N;
+
+	mx[id] = id;
+	for (i = id; i < N_all; i = i + kol)
+	{
+		if (F[mx[id]] < F[i])
+		{
+			mx[id] = i;
+		}
+	}
+
+	barrier(CLK_GLOBAL_MEM_FENCE);
+	if (id == 0) 
+	{
+		for (i = 0; i < kol || i < N * N; i = i + 1) 
+		{
+			if (F[mx[0]] < F[mx[i]])
+			{
+				mx[0] = mx[i];
+			}
+		}
+	}
+	barrier(CLK_GLOBAL_MEM_FENCE);
+
+	for (x = (mx[0] % N) + (id * N), i = N * id + swp; x < N * N; x = x + N * kol, i = i + N * kol)
+	{
+		temp = F[x];
+		F[x] = F[i];
+		F[i] = temp;
+	}
+	barrier(CLK_GLOBAL_MEM_FENCE);
+    for (x = (mx[0] / N) * N + id, i = id; i < N; x = x + kol, i = i + kol)
+	{
+		temp = F[x];
+		F[x] = F[(swp * N) + i];
+		F[(swp * N) + i] = temp;
+	}
+}

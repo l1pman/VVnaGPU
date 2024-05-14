@@ -1,0 +1,24 @@
+__kernel void Kernel(__global float *xIn, float h)
+{
+	int siL = get_local_size(0), siG = get_global_size(0);
+	int idL = get_local_id(0), idG = get_group_id(0); 
+	
+	__local float X, Y;
+	__local float x, y, dest;
+	__local float xL[@{1}];
+
+	event_t event = async_work_group_copy(xL, xIn + @{1} * idG, @{1}, 0);
+	wait_group_events(1, &event);
+
+	x = xL[idL] - h;
+	X = x;
+	Y = @{0};
+	x = xL[idL];
+	y = @{0};
+
+	dest = (X - x) * (X - x) + (Y - y) * (Y - y);
+	xL[idL] = dest;
+
+	event = async_work_group_copy(xIn + @{1} * idG, xL, @{1}, 0);
+	wait_group_events(1, &event);
+}

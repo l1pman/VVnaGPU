@@ -1,0 +1,9 @@
+__kernel void Kernel(__global float *A, __global float *B,
+		int N, __global float *C)
+{
+	int i, id=get_global_id(0), kol=get_global_size(0);
+	for (i=id; i<N; i=i+kol)
+	{
+		C[i] = (A[i] + B[i]) / 2;
+	}
+}

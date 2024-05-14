@@ -1,0 +1,7 @@
+__kernel void Simple (__global int *size, __global int *n)
+{
+	for(int i = 0; i < *size; i++)
+	{
+		n[i] = n[i] * 2;
+	}
+}

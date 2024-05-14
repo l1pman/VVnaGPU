@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="openCL">
+      <UniqueIdentifier>{2a27807a-3249-486e-bba3-fe9c6c4980b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="readFile">
+      <UniqueIdentifier>{e1dabcf6-3150-435d-97bb-ac5e47d3eb09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="textFile">
+      <UniqueIdentifier>{c7908be7-3864-437f-82ca-fa6167aaa152}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InOut">
+      <UniqueIdentifier>{90ba1c90-af6d-41fa-88ad-c23f6de327a1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Platforms.cpp">
+      <Filter>openCL</Filter>
+    </ClCompile>
+    <ClCompile Include="Devices.cpp">
+      <Filter>openCL</Filter>
+    </ClCompile>
+    <ClCompile Include="Context.cpp">
+      <Filter>openCL</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp">
+      <Filter>openCL</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandQueue.cpp">
+      <Filter>openCL</Filter>
+    </ClCompile>
+    <ClCompile Include="Kernel.cpp">
+      <Filter>openCL</Filter>
+    </ClCompile>
+    <ClCompile Include="Buffer.cpp">
+      <Filter>openCL</Filter>
+    </ClCompile>
+    <ClCompile Include="Opencl_source_read.cpp">
+      <Filter>readFile</Filter>
+    </ClCompile>
+    <ClCompile Include="Image2d.cpp">
+      <Filter>openCL</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Platforms.h">
+      <Filter>openCL</Filter>
+    </ClInclude>
+    <ClInclude Include="Devices.h">
+      <Filter>openCL</Filter>
+    </ClInclude>
+    <ClInclude Include="openCLObject.h">
+      <Filter>openCL</Filter>
+    </ClInclude>
+    <ClInclude Include="Context.h">
+      <Filter>openCL</Filter>
+    </ClInclude>
+    <ClInclude Include="Program.h">
+      <Filter>openCL</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandQueue.h">
+      <Filter>openCL</Filter>
+    </ClInclude>
+    <ClInclude Include="Kernel.h">
+      <Filter>openCL</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>openCL</Filter>
+    </ClInclude>
+    <ClInclude Include="openCLVFun.h" />
+    <ClInclude Include="Opencl_source_read.h">
+      <Filter>readFile</Filter>
+    </ClInclude>
+    <ClInclude Include="Image2d.h">
+      <Filter>openCL</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Lab1.txt">
+      <Filter>textFile</Filter>
+    </Text>
+    <Text Include="Lab2.txt">
+      <Filter>textFile</Filter>
+    </Text>
+    <Text Include="inLab2.txt">
+      <Filter>InOut</Filter>
+    </Text>
+    <Text Include="outLab2.txt">
+      <Filter>InOut</Filter>
+    </Text>
+    <Text Include="Lab3.txt">
+      <Filter>textFile</Filter>
+    </Text>
+    <Text Include="Lab4_1.txt">
+      <Filter>textFile</Filter>
+    </Text>
+    <Text Include="Lab4_2.txt">
+      <Filter>textFile</Filter>
+    </Text>
+    <Text Include="Lab5.txt">
+      <Filter>textFile</Filter>
+    </Text>
+    <Text Include="inLab4.txt">
+      <Filter>InOut</Filter>
+    </Text>
+    <Text Include="outLab4.txt">
+      <Filter>InOut</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

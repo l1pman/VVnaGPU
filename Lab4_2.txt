@@ -1,0 +1,78 @@
+__kernel void Kernel(__read_write image2d_t imageF, __read_write image2d_t imageMX)
+{
+	int N = get_image_height(imageF);
+	int i, x, mx, id = get_global_id(0), kol = get_global_size(0);
+	int swp = N / 2, N_all = N * N;
+	int2 coord, coordMX;
+	int4 in4, in4mx, temp;
+
+	in4.s0 = 0; in4.s1 = 0; in4.s2 = 0; in4.s3 = 0;
+	in4mx.s0 = 0; in4mx.s1 = 0; in4mx.s2 = 0; in4mx.s3 = 0;
+
+	coordMX.s0 = id % N; coordMX.s1 = id / N;
+	if (id < N * N)
+	{
+		in4 = read_imagei(imageF, coordMX);
+	}
+	in4mx.s0 = coordMX.s0; in4mx.s1 = coordMX.s1; in4mx.s2 = in4.s0;
+	for (i = id; i < N_all; i = i + kol)
+	{
+		coord.s0 = i % N; coord.s1 = i / N;
+		in4 = read_imagei(imageF, coord);
+
+		if (in4mx.s2 < in4.s0)
+		{
+			in4mx.s0 = coord.s0;
+			in4mx.s1 = coord.s1;
+			in4mx.s2 = in4.s0;
+		}
+	}
+	if (id < N * N)
+	{
+		write_imagei(imageMX, coordMX, in4mx);
+	}
+
+	barrier(CLK_GLOBAL_MEM_FENCE);
+	if (id == 0)
+	{
+		for (i = 0; i < kol && i < N * N; i = i + 1)
+		{
+			coord.s0 = i % N; coord.s1 = i / N;
+			in4 = read_imagei(imageMX, coord);
+			if (in4mx.s2 < in4.s2)
+			{
+				in4mx.s0 = in4.s0;
+				in4mx.s1 = in4.s1;
+				in4mx.s2 = in4.s2;
+			}
+		}
+		write_imagei(imageMX, coordMX, in4mx);
+	}
+	barrier(CLK_GLOBAL_MEM_FENCE);
+
+	coord.s0 = 0; coord.s1 = 0;
+	in4 = read_imagei(imageMX, coord);
+	coord.s0 = in4.s0; coord.s1 = 0;
+	coordMX.s0 = swp; coordMX.s1 = 0;
+	for (x = id; x < N; x = x + N * kol)
+	{
+		coord.s1 = x; coordMX.s1 = x;
+		temp = read_imagei(imageF, coord);
+		in4mx = read_imagei(imageF, coordMX);
+		
+		write_imagei(imageF, coordMX, temp);
+		write_imagei(imageF, coord, in4mx);
+	}
+	barrier(CLK_GLOBAL_MEM_FENCE);
+	coord.s0 = 0; coord.s1 = in4.s1;
+	coordMX.s0 = 0; coordMX.s1 = swp;
+	for (x = id; x < N; x = x + N * kol)
+	{
+		coord.s0 = x; coordMX.s0 = x;
+		temp = read_imagei(imageF, coord);
+		in4mx = read_imagei(imageF, coordMX);
+		
+		write_imagei(imageF, coordMX, temp);
+		write_imagei(imageF, coord, in4mx);
+	}
+}
